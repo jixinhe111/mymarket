@@ -54,7 +54,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<String> checkValid(String str,String type){
-        if(org.apache.commons.lang3.StringUtils.isNotBlank(type)){
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(type)){ //isNotBlank,isNotEmpty
             //开始校验
             if(Const.USERNAME.equals(type)){
                 int resultCount = userMapper.checkUsername(str);
@@ -176,6 +176,14 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(org.apache.commons.lang3.StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
 
+    }
+
+    @Override
+    public ServerResponse checkAdminRole(User user){
+        if(user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
     }
 
 }
